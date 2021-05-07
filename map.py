@@ -2,7 +2,8 @@ import folium
 import requests
 import json
 import matplotlib.pyplot as plt
-
+from datetime import date
+date = date.today()
 codes = ['AL', 'AT', 'BA', 'BE', 'BG', 'GB', 'CY', 'CH',
 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU', 'HR', 'IE', 'IT',
   'IS', 'LI','LV', 'LT', 'LU', 'ME', 'MK', 'MT', 'NL', 'NO',
@@ -27,26 +28,30 @@ except Exception as err:
 
 map = folium.Map(location = [53.58, 9.999], zoom_start = 3, tiles = "Stamen Terrain")
 fg=folium.FeatureGroup(name="Covid Data")
-html = """<h2>Country: {}</h2>
-            <p>Deaths today: {}</p>
-            <p>Cases today: {}</p>
+html = """
+            <h3>Country: {}</h3>
+            <h4>Date: {}</h4>
+            <h5>Deaths today: {}</h5>
+            <h5>Cases today: {}</h5>
             </br>
-            <p>Total cases:{}</p>
-            <p>Total deaths:{}</p>"""
+            <h5>Total cases:{}</h5>
+            <h5>Total deaths:{}</h5>
+            """
 for item in responses:
     fg.add_child(folium.Marker([item[1]['latitude'],item[1]['longitude']],
-    popup=html.format(item[0], str(item[2]['deaths']),
+    popup=html.format(item[0], date, str(item[2]['deaths']),
     str(item[2]['confirmed']), str(item[3]['confirmed']),
     str(item[3]['deaths'])),
     icon=folium.Icon(color="green")))
+
 # check the numbers where i change color on map
 cases_per_mil = []
 for item in responses:
     cases_per_mil.append(item[4])
-print(cases_per_mil)
+# print(cases_per_mil)
 cases_per_mil.sort()
-plt.plot(cases_per_mil)
-plt.show()
+# plt.plot(cases_per_mil)
+# plt.show()
 # --style function
 def style_fcn(x):
     color = 'grey'
@@ -77,7 +82,7 @@ style_function = style_fcn))
 
 map.add_child(fg)
 
-map.save("map1.html")
+map.save("map.html")
 
 
 # other way to add Marker
