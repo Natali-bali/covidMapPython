@@ -5,4 +5,3 @@ Used libraries: Folium, Requests, Matplotlib
 Data from https://corona-api.com
 Output: HTML page
 
-![](map.html)
